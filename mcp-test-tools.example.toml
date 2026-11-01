@@ -1,0 +1,24 @@
+# Copy to mcp-test-tools.toml and edit. Paths are relative to this file.
+# The agent can only run the suites defined here. It never supplies a command.
+
+runs_dir = ".mcp-test-tools/runs"
+max_concurrent_runs = 2
+
+[suites.sample]
+description = "Sample pytest project with two deliberate failures"
+# {python} is this interpreter; {junit} is where the run's JUnit XML must be written.
+command = ["{python}", "-m", "pytest", "-q", "--junitxml={junit}"]
+cwd = "examples/sample-project"
+allow_selector = true                 # lets the agent add e.g. "-k cart" or "test_cart.py"
+allowed_flags = ["-k", "-m", "-x", "--maxfail"]
+timeout_seconds = 120
+# env_passthrough = ["BASE_URL"]      # by default the tests see a minimal environment, no tokens
+
+[bugs]
+backend = "local"                     # local | github | jira
+dir = ".mcp-test-tools/bugs"
+max_per_run = 5
+# backend = "github"                  # needs GITHUB_TOKEN
+# github_repo = "owner/name"
+# backend = "jira"                    # needs JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN
+# jira_project = "QA"
